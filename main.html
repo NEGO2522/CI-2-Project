@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <!-- Primary Meta Tags -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="A modern, real-time chat application using WebSockets">
+  <meta name="theme-color" content="#4f46e5">
+  <meta name="author" content="Your Name">
+  
+  <!-- Open Graph / Social Media -->
+  <meta property="og:title" content="Modern WebSocket Chat">
+  <meta property="og:description" content="A beautiful, real-time chat application">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yourdomain.com">
+  
+  <title>Vipin Sir Chat Application | Real-time Messaging</title>
+  
+  <!-- Icons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.ico">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Theme -->
+  <meta name="theme-color" content="#4f46e5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#6366f1" media="(prefers-color-scheme: dark)">
+</head>
+<body>
+  <div id="app">
+    <!-- Sidebar -->
+    <aside id="sidebar">
+      <div class="sidebar-header">
+        <div class="user-info">
+          <div class="avatar">
+            <span>U</span>
+          </div>
+          <div class="user-details">
+            <h3>Vipin Sir</h3>
+            <p class="status-text">Online</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search Friends....">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </div>
+      
+      <div class="chat-list">
+        <div class="chat-list-header">
+          <h3>Friends</h3>
+          <button id="newChat" class="icon-button" aria-label="Add friend">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-plus">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <line x1="19" y1="8" x2="19" y2="14"></line>
+              <line x1="22" y1="11" x2="16" y2="11"></line>
+            </svg>
+          </button>
+        </div>
+        <ul id="chatList">
+          <li class="friend-item online">
+            <div class="friend-avatar">
+              <span>MS</span>
+              <span class="status-indicator"></span>
+            </div>
+            <div class="friend-info">
+              <h4>Mohit Kumar Soni</h4>
+              <p>Hey there! How are you?</p>
+            </div>
+            <span class="time">2m</span>
+          </li>
+          <li class="friend-item away">
+            <div class="friend-avatar">
+              <span>JY</span>
+              <span class="status-indicator"></span>
+            </div>
+            <div class="friend-info">
+              <h4>Jeetam Kumar Yadav</h4>
+              <p>Can we meet tomorrow?</p>
+            </div>
+            <span class="time">15m</span>
+          </li>
+          <li class="friend-item online">
+            <div class="friend-avatar">
+              <span>NJ</span>
+              <span class="status-indicator"></span>
+            </div>
+            <div class="friend-info">
+              <h4>Nishant Jain</h4>
+              <p>I'll send you the files</p>
+            </div>
+            <span class="time">1h</span>
+          </li>
+          <li class="friend-item offline">
+            <div class="friend-avatar">
+              <span>KJ</span>
+              <span class="status-indicator"></span>
+            </div>
+            <div class="friend-info">
+              <h4>Kshitij Jain</h4>
+              <p>See you next week!</p>
+            </div>
+            <span class="time">2h</span>
+          </li>
+          <li class="friend-item online">
+            <div class="friend-avatar">
+              <span>AK</span>
+              <span class="status-indicator"></span>
+            </div>
+            <div class="friend-info">
+              <h4>Anusha Khan</h4>
+              <p>Thanks for your help!</p>
+            </div>
+            <span class="time">5h</span>
+          </li>
+          <li class="friend-item away">
+            <div class="friend-avatar">
+              <span>AB</span>
+              <span class="status-indicator"></span>
+            </div>
+            <div class="friend-info">
+              <h4>Aayush Bhardwaj</h4>
+              <p>Let's discuss the project</p>
+            </div>
+            <span class="time">1d</span>
+          </li>
+          <li class="friend-item online">
+            <div class="friend-avatar">
+              <span>LT</span>
+              <span class="status-indicator"></span>
+            </div>
+            <div class="friend-info">
+              <h4>Loren Tikku</h4>
+              <p>I've completed the task</p>
+            </div>
+            <span class="time">2d</span>
+          </li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Chat Area -->
+    <div class="main-content">
+      <header>
+        <div class="header-content">
+          <div class="header-title">
+            <div class="chat-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-square">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg>
+            </div>
+            <h1>Vipin Sir Chat</h1>
+            <div class="header-options">
+              <button class="header-option active" data-option="chat">Chat</button>
+              <button class="header-option" data-option="calls">Calls</button>
+              <button class="header-option" data-option="status">Status</button>
+            </div>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button id="searchToggle" class="icon-button" aria-label="Search messages">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </button>
+          <div class="dropdown">
+            <button id="moreOptions" class="icon-button" aria-label="More options" aria-expanded="false">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
+                <circle cx="12" cy="12" r="1"></circle>
+                <circle cx="12" cy="5" r="1"></circle>
+                <circle cx="12" cy="19" r="1"></circle>
+              </svg>
+            </button>
+            <div class="dropdown-menu">
+              <button class="dropdown-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span>View Profile</span>
+              </button>
+              <button class="dropdown-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell">
+                  <path d="M22 17H2a3 3 0 0 0 3-3V9a7 7 0 0 1 14 0v5a3 3 0 0 0 3 3zm-8.27 4a2 2 0 0 1-3.46 0"></path>
+                </svg>
+                <span>Notifications</span>
+              </button>
+              <button class="dropdown-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings">
+                  <circle cx="12" cy="12" r="3"></circle>
+                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+                <span>Settings</span>
+              </button>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                  <polyline points="16 17 21 12 16 7"></polyline>
+                  <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                <span>Logout</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main id="chat" role="log" aria-live="polite" aria-atomic="false">
+        <ul id="messages" role="list"></ul>
+        
+        <div id="typingIndicator" class="typing-indicator" style="display: none;">
+          <div class="typing-dots">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>
+          <span>typing...</span>
+        </div>
+      </main>
+
+      <form id="sendForm" autocomplete="off" novalidate>
+        <div class="input-container">
+          <button type="button" id="emojiPicker" class="emoji-button" aria-label="Choose emoji">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-smile">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+              <line x1="9" y1="9" x2="9.01" y2="9"></line>
+              <line x1="15" y1="9" x2="15.01" y2="9"></line>
+            </svg>
+          </button>
+          <div class="message-input-container">
+            <div id="messageInput" contenteditable="true" role="textbox" aria-multiline="true" placeholder="Type a message..." spellcheck="true"></div>
+            <div class="message-actions">
+              <button type="button" class="photo-button" aria-label="Send photo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                  <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+              </button>
+              <button type="button" class="record-button" aria-label="Record voice">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                  <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                  <line x1="12" y1="19" x2="12" y2="23"></line>
+                  <line x1="8" y1="23" x2="16" y2="23"></line>
+                </svg>
+              </button>
+              <button type="button" class="link-button" aria-label="Share link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                </svg>
+              </button>
+              <button type="button" class="attachment-button" aria-label="Attach file">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <button type="submit" id="sendButton" class="send-button" aria-label="Send message">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </div>
+      </form>
+    </div>
+    
+    <!-- Emoji Picker (initially hidden) -->
+    <div id="emojiContainer" class="emoji-picker">
+      <!-- Emoji picker will be inserted here by JavaScript -->
+    </div>
+    
+    <!-- File Upload Modal -->
+    <div id="fileUploadModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Send File</h3>
+          <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="file-drop-area">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="upload-icon">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            <h4>Drag & drop files here</h4>
+            <p>or</p>
+            <label for="fileInput" class="browse-button">Browse Files</label>
+            <input type="file" id="fileInput" style="display: none;">
+          </div>
+          <div class="file-preview" id="filePreview">
+            <!-- File previews will be shown here -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="cancel-button">Cancel</button>
+          <button class="send-button" disabled>Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- App Script -->
+  <script src="app.js" defer></script>
+  
+  <!-- Register Service Worker for PWA support -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(registration => {
+            console.log('ServiceWorker registration successful');
+          })
+          .catch(err => {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+      });
+    }
+  </script>
+</body>
+</html>
