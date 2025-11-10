@@ -76,8 +76,9 @@
         setTimeout(() => {
             document.body.style.opacity = '0';
             setTimeout(() => {
-                // Use the /chat route that we defined in vercel.json
-                window.location.href = '/chat';
+                // Get the current origin and redirect to /chat
+                const baseUrl = window.location.origin;
+                window.location.href = `${baseUrl}/chat`;
             }, 500);
         }, 3000);
     </script>
