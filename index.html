@@ -72,11 +72,12 @@
     </div>
 
     <script>
-        // Redirect to index.html after 3 seconds with smooth transition
+        // Redirect to /chat after 3 seconds with smooth transition
         setTimeout(() => {
             document.body.style.opacity = '0';
             setTimeout(() => {
-                window.location.href = 'main.html';
+                // Use the /chat route that we defined in vercel.json
+                window.location.href = '/chat';
             }, 500);
         }, 3000);
     </script>
